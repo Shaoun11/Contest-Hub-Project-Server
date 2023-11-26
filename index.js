@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -26,6 +26,8 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     const database = client.db("contestHub").collection("contest");
     await client.connect();
+
+    //get contest data
     app.get("/allcontest", async (req, res) => {
         let query = {};
         const name = req.query.title;
@@ -47,6 +49,16 @@ async function run() {
         res.send({ result, total });
       });
 
+       //get contest single data
+       app.get("/allcontest/:_id", async (req, res) => {
+        const id = req.params._id;
+        const query = {
+          _id: new ObjectId(id),
+        };
+        const result = await database.findOne(query);
+        res.send(result);
+      });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -56,6 +68,7 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
 
 
 
