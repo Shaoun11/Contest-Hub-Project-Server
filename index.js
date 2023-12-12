@@ -26,7 +26,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     const database = client.db("contestHub").collection("contest");
     const userdatabase = client.db("contestHub").collection("users");
-    await client.connect();
+ 
 
     //get contest data
     app.get("/allcontest", async (req, res) => {
